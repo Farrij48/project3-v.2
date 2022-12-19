@@ -1,3 +1,12 @@
+<?php
+//inisialisasi session
+session_start();
+//mengecek username pada session
+if( !isset($_SESSION['username']) ){
+  $_SESSION['msg'] = 'anda harus login untuk mengakses halaman ini';
+  header('Location: sign_in.php');
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -95,7 +104,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/sign_in.php">
+          <a class="nav-link " href="../pages/logout.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
             </div>
@@ -130,7 +139,7 @@
             <li class="nav-item d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
+                <span class="d-sm-inline d-none"><?php echo $_SESSION['username']; ?></span>
               </a>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -225,6 +234,7 @@
       </div>
     </nav>
     <!-- End Navbar -->
+    
     <div class="table-upload">
       <div class="row">
         <div class="col-12">
@@ -237,14 +247,15 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Produk</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Deskripsi</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stok</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kategori</th>
-                      <th class="text-secondary opacity-7"></th>
+                      
+                      <th class="text-sm mb-0">No</th>
+                      <th class="text-sm mb-0">Produk</th>
+                      <th class="text-sm mb-0">Deskripsi</th>
+                      <th class="text-sm mb-0">Stok</th>
+                      <th class="text-sm mb-0">Harga</th>
+                      <th class="text-sm mb-0">Status</th>
+                      <th class="text-sm mb-0">Kategori</th>
+                      <th class="text-sm mb-0"></th>
                       </tr>
                       </thead>
                   <tbody>
@@ -262,37 +273,37 @@
                   ?>
                     <tr>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $no ?>
+                        <span class="text-sm mb-0"><?php echo $no ?>
                         <td>
                         <div class="d-flex px-2 py-1">
                           <div>
                             <img src="../gambar/<?php echo $row['gambar_produk']; ?>" class="avatar avatar-sm me-3" alt="user1">
                           </div>
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm"><?php echo $row["nama_prod"] ?></h6>
-                            <p class="text-xs text-secondary mb-0"><?= $row["variasi"] ?> <span>grm</span></p>
+                            <h6 class="text-sm mb-0"><?php echo $row["nama_prod"] ?></h6>
+                            <p class="text-sm mb-0"><?= $row["variasi"] ?> <span>grm</span></p>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs text-secondary mb-0"><?php echo $row["deskripsi"] ?></p>
+                        <p class="text-sm mb-0"><?php echo $row["deskripsi"] ?></p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["stok"] ?></span>
+                        <span class="text-sm mb-0"><?php echo $row["stok"] ?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["harga"] ?></span>
+                        <span class="text-sm mb-0"><?php echo $row["harga"] ?></span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="badge badge-sm bg-gradient-success"><?php echo $row["status_prod"] ?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["kategori"] ?></span>
+                        <span class="text-sm mb-0"><?php echo $row["kategori"] ?></span>
                       </td>
                       <td class="align-middle">
-                        <a href="../pop/edit_barang.php?id_produk=<?php echo $row["id_produk"]; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="../pop/edit_barang.php?id_produk=<?php echo $row["id_produk"]; ?>" class="text-sm mb-0" data-toggle="tooltip" data-original-title="Edit user">
                           Edit |
-                        <a href="../algoritma/up_proseshapus.php?id_produk=<?php echo $row['id_produk']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="../algoritma/up_proseshapus.php?id_produk=<?php echo $row['id_produk']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')" class="text-sm mb-0" data-toggle="tooltip" data-original-title="Edit user">
                           Hapus
                         </a>
                       </td>
@@ -301,8 +312,9 @@
                   $no++; //untuk nomor urut terus bertambah 1
                   } 
                   ?>
-                    <div class="col-6 text-end">
-                  <a href="../pop/upload_barang.php" class="btn btn-outline-primary btn-sm mb-0">Tambah Barang</a>
+                  <div class="col-6 text-end">
+                  <a href="../pop/upload_barang.php" class="btn bg-gradient-dark mb-0">Tambah Barang</a>
+                    
   </main>
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">

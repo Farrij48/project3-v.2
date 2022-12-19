@@ -1,3 +1,48 @@
+<?php
+//menyertakan file program koneksi.php pada register
+require('../koneksi.php');
+//inisialisasi session
+session_start();
+$error = '';
+$validate = '';
+//mengecek apakah sesssion username tersedia atau tidak jika tersedia maka akan diredirect ke halaman index
+if( isset($_SESSION['username']) ) header('Location: dashboard.php');
+//mengecek apakah form disubmit atau tidak
+if( isset($_POST['submit']) ){
+         
+        // menghilangkan backshlases
+        $username = stripslashes($_POST['username']);
+        //cara sederhana mengamankan dari sql injection
+        $username = mysqli_real_escape_string($koneksi, $username);
+         // menghilangkan backshlases
+        $password = stripslashes($_POST['password']);
+         //cara sederhana mengamankan dari sql injection
+        $password = mysqli_real_escape_string($koneksi, $password);
+        
+        //cek apakah nilai yang diinputkan pada form ada yang kosong atau tidak
+        if(!empty(trim($username)) && !empty(trim($password))){
+            //select data berdasarkan username dari database
+            $query      = "SELECT * FROM user_admin WHERE username = '$username'";
+            $result     = mysqli_query($koneksi, $query);
+            $rows       = mysqli_num_rows($result);
+            if ($rows != 0) {
+                $hash   = mysqli_fetch_assoc($result)['password'];
+                if(password_verify($password, $hash)){
+                    $_SESSION['username'] = $username;
+                
+                    header('Location: dashboard.php');
+                }
+                             
+            //jika gagal maka akan menampilkan pesan error
+            } else {
+                $error =  'Register User Gagal !!';
+            }
+             
+        }else {
+            $error =  'Data tidak boleh kosong !!';
+        }
+    } 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,26 +135,30 @@
                   <p class="mb-0">Masukkan Emai Anda untuk Melakukan Sign In</p>
                 </div>
                 <div class="card-body">
-                  <form role="form">
+                  <form role="form" action="sign_in.php" method="POST">
                     <div class="mb-3">
-                      <input type="email" class="form-control form-control-lg" placeholder="Email" aria-label="Email">
+                      <input type="text" name="username" class="form-control form-control-lg" placeholder="Username" aria-label="" >
                     </div>
                     <div class="mb-3">
-                      <input type="email" class="form-control form-control-lg" placeholder="Password" aria-label="Password">
+                      <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" aria-label="password" >
+                      <?php if($validate != '') {?>
+                            <p class="text-danger"><?= $validate; ?></p>
+                        <?php }?>
                     </div>
                     <div class="form-check form-switch">
                       <input class="form-check-input" type="checkbox" id="rememberMe">
                       <label class="form-check-label" for="rememberMe">Ingat Aku</label>
                     </div>
+
                     <div class="text-center">
-                      <button type="button" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Sign in</button>
+                      <button type="submit" name="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Sign in</button>
                     </div>
                   </form>
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
                     Tidak Punya Akun?
-                    <a href="javascript:;" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                    <a href="../pages/sign_up.php" class="text-primary text-gradient font-weight-bold">Sign up</a>
                   </p>
                 </div>
               </div>

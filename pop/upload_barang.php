@@ -1,4 +1,12 @@
-
+<?php
+//inisialisasi session
+session_start();
+//mengecek username pada session
+if( !isset($_SESSION['username']) ){
+  $_SESSION['msg'] = 'anda harus login untuk mengakses halaman ini';
+  header('Location: ../pages/sign_in.php');
+}
+?>
   
   
 <!DOCTYPE html>
@@ -97,7 +105,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/sign_in.php">
+          <a class="nav-link " href="../pages/logout.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
             </div>
@@ -123,16 +131,13 @@
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            <div class="input-group">
-              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" placeholder="Type here...">
             </div>
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
+                <span class="d-sm-inline d-none"><?php echo $_SESSION['username']; ?></span>
               </a>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -227,50 +232,73 @@
       </div>
     </nav>
     <!-- End Navbar -->
-    </head>
+    <head>
+
   <body>
-      <center>
-        <h1>Tambah Produk</h1>
-      <center>
-      <form method="POST" action="../algoritma/up_tambahproduk.php" enctype="multipart/form-data" >
-      <section class="base">
-        <div>
-          <label>Nama Produk</label>
-          <input type="text" name="nama_prod" autofocus="" required="" />
-        </div>
-        <div>
-          <label>Deskripsi</label>
-         <input type="text" name="deskripsi" />
-        </div>
-        <div>
-          <label>Stok</label>
-          <input type="text" name="stok" autofocus="" required="" />
-        </div>
-        <div>
-          <label>Harga</label>
-         <input type="text" name="harga" required="" />
-        </div>
-        <div>
-          <label>Status</label>
-          <input type="text" name="status_prod" autofocus="" required="" />
-        </div>
-        <div>
-          <label>Kategori</label>
-          <input type="text" name="kategori" autofocus="" required="" />
-        </div>
-        <div>
-          <label>Variasi</label>
-          <input type="text" name="variasi" autofocus="" required="" />
-        </div>
-        <div>
-          <label>Gambar Produk</label>
-         <input type="file" name="gambar_produk" required="" />
-        </div>
-        <div>
-         <button type="submit">Simpan Produk</button>
-        </div>
-        </section>
-      </form>
+  <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="d-flex align-items-center">
+                <p class="mb-0">Upload Produk</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="text-uppercase text-sm">Informasi Produk</p>
+              <div class="row">
+                <div class="col-md-6">
+                <form method="post" action="../algoritma/up_tambahproduk.php" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Produk</label>
+                    <input class="form-control" type="text" name="nama_prod" autofocus="" required="" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Deskripsi</label>
+                    <input class="form-control" type="text" name="deskripsi"  />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Stok</label>
+                    <input class="form-control" type="text" name="stok" autofocus="" required="" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Harga</label>
+                    <input class="form-control" type="text" name="harga" required="" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Status</label>
+                    <input class="form-control" type="text" name="status_prod"  />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Kategori</label>
+                    <input class="form-control" type="text" name="kategori"  />
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Variasi</label>
+                    <input class="form-control" type="text" name="variasi"  />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Gambar Produk</label>
+                    <input class="form-control" type="file" name="gambar_produk"  />
+                  </div>
+                </div>
+                  <div class="d-flex align-items-center">
+                <button type="submit" class="btn btn-primary btn-sm ms-auto">Upload</button>
+              </div>
   </body>
 </html>
   </main>

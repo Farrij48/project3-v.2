@@ -229,12 +229,19 @@
       </div>
     </nav>
     <!-- End Navbar -->
+    <?php
+  include 'connection.php';
+  session_start();
+$id=$_SESSION['id'];
+$query=mysqli_query($nama_db,"SELECT * FROM user_admin where id='$id'")or die(mysqli_error());
+$row=mysqli_fetch_array($query);
+  ?>
     <div class="card shadow-lg mx-4 card-profile-bottom">
       <div class="card-body p-3">
         <div class="row gx-4">
           <div class="col-auto">
             <div class="avatar avatar-xl position-relative">
-              <img src="../assets/img/fotoku.jpg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+              <img src="../assets/img/user.svg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
             </div>
           </div>
           <div class="col-auto my-auto">
@@ -281,37 +288,39 @@
             <div class="card-header pb-0">
               <div class="d-flex align-items-center">
                 <p class="mb-0">Edit Profile</p>
-                <button class="btn btn-primary btn-sm ms-auto">Pengaturan</button>
+                <button type="submit" class="btn btn-primary btn-sm ms-auto">Ubah</button>
               </div>
             </div>
             <div class="card-body">
               <p class="text-uppercase text-sm">Informasi Pengguna</p>
               <div class="row">
                 <div class="col-md-6">
+                <form method="post" action="#" >
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Username</label>
-                    <input class="form-control" type="text" value="matsuoka48">
+                    <input class="form-control" type="text" name="username" id="username" value="<?php echo $user['username']?>">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Email address</label>
-                    <input class="form-control" type="email" value="mohfarrijw48@gmail.com">
+                    <input class="form-control" type="email" name="email" id="email" value="<?php echo $user['email']?>">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Nama Awal</label>
-                    <input class="form-control" type="text" value="Moh">
+                    <label for="example-text-input" class="form-control-label">Nama</label>
+                    <input class="form-control" type="text" name="name" id="name" value="<?php echo $user['name']?>">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Nama Belakang</label>
-                    <input class="form-control" type="text" value="Farrij">
+                    <label for="example-text-input" class="form-control-label">Password</label>
+                    <input class="form-control" type="text" name="password" id="password" value="<?php echo $user['password']?>">
                   </div>
                 </div>
               </div>
+              <!--
               <hr class="horizontal dark">
               <p class="text-uppercase text-sm">Informasi Kontak</p>
               <div class="row">
@@ -350,66 +359,13 @@
                   </div>
                 </div>
               </div>
+-->
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card card-profile">
-            <img src="../assets/img/gambarjti.jpg" alt="Image placeholder" class="card-img-top">
-            <div class="row justify-content-center">
-              <div class="col-4 col-lg-4 order-lg-2">
-                <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
-                  <a href="javascript:;">
-                    <img src="../assets/img/fotoku.jpg" class="rounded-circle img-fluid border border-2 border-white">
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
-              <div class="d-flex justify-content-between">
-                <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-none d-lg-block">Connect</a>
-                <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-block d-lg-none"><i class="ni ni-collection"></i></a>
-                <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-none d-lg-block">Message</a>
-                <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-block d-lg-none"><i class="ni ni-email-83"></i></a>
-              </div>
-            </div>
-            <div class="card-body pt-0">
-              <div class="row">
-                <div class="col">
-                  <div class="d-flex justify-content-center">
-                    <div class="d-grid text-center">
-                      <span class="text-lg font-weight-bolder">22</span>
-                      <span class="text-sm opacity-8">Friends</span>
-                    </div>
-                    <div class="d-grid text-center mx-4">
-                      <span class="text-lg font-weight-bolder">10</span>
-                      <span class="text-sm opacity-8">Photos</span>
-                    </div>
-                    <div class="d-grid text-center">
-                      <span class="text-lg font-weight-bolder">89</span>
-                      <span class="text-sm opacity-8">Comments</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="text-center mt-4">
-                <h5>
-                  Moh Farrij Wajdi<span class="font-weight-light">, 35</span>
-                </h5>
-                <div class="h6 font-weight-300">
-                  <i class="ni location_pin mr-2"></i>Banyuwangi, Indonesia
-                </div>
-                <div class="h6 mt-4">
-                  <i class="ni business_briefcase-24 mr-2"></i>D4 Teknik Informatika
-                </div>
-                <div>
-                  <i class="ni education_hat mr-2"></i>Politeknik Negeri Jember
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        
+          
+            
       <footer class="footer pt-3  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
@@ -529,5 +485,8 @@
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
 </body>
-
+<?php
+unset($_SESSION['error']);
+unset($_SESSION['message']);
+?>
 </html>

@@ -1,3 +1,63 @@
+<?php
+//menyertakan file program koneksi.php pada register
+require('../koneksi.php');
+//inisialisasi session
+session_start();
+$error = '';
+$validate = '';
+//mengecek apakah form registrasi di submit atau tidak
+if( isset($_POST['submit']) ){
+        // menghilangkan backshlases
+        $username = stripslashes($_POST['username']);
+        //cara sederhana mengamankan dari sql injection
+        $username = mysqli_real_escape_string($koneksi, $username);
+        $name     = stripslashes($_POST['name']);
+        $name     = mysqli_real_escape_string($koneksi, $name);
+        $email    = stripslashes($_POST['email']);
+        $email    = mysqli_real_escape_string($koneksi, $email);
+        $password = stripslashes($_POST['password']);
+        $password = mysqli_real_escape_string($koneksi, $password);
+        $repass   = stripslashes($_POST['repassword']);
+        $repass   = mysqli_real_escape_string($koneksi, $repass);
+        //cek apakah nilai yang diinputkan pada form ada yang kosong atau tidak
+        if(!empty(trim($name)) && !empty(trim($username)) && !empty(trim($email)) && !empty(trim($password)) && !empty(trim($repass))){
+            //mengecek apakah password yang diinputkan sama dengan re-password yang diinputkan kembali
+            if($password == $repass){
+                //memanggil method cek_nama untuk mengecek apakah user sudah terdaftar atau belum
+                if( cek_nama($name,$koneksi) == 0 ){
+                    //hashing password sebelum disimpan didatabase
+                    $pass  = password_hash($password, PASSWORD_DEFAULT);
+                    //insert data ke database
+                    $query = "INSERT INTO user_admin (username,name,email,password ) VALUES ('$username','$name','$email','$pass')";
+                    $result   = mysqli_query($koneksi, $query);
+                    //jika insert data berhasil maka akan diredirect ke halaman index.php serta menyimpan data username ke session
+                    if ($result) {
+                        $_SESSION['username'] = $username;
+                        
+                        echo "<script>alert('Berhasil Sign Up.');window.location='dashboard.php';</script>";
+                     
+                    //jika gagal maka akan menampilkan pesan error
+                    } else {
+                        $error =  'Register User Gagal !!';
+                    }
+                }else{
+                        $error =  'Username sudah terdaftar !!';
+                }
+            }else{
+                $validate = 'Password tidak sama !!';
+            }
+             
+        }else {
+            $error =  'Data tidak boleh kosong !!';
+        }
+    } 
+    //fungsi untuk mengecek username apakah sudah terdaftar atau belum
+    function cek_nama($username,$koneksi){
+        $nama = mysqli_real_escape_string($koneksi, $username);
+        $query = "SELECT * FROM user_admin WHERE username = '$name'";
+        if( $result = mysqli_query($koneksi, $query) ) return mysqli_num_rows($result);
+    }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -136,26 +196,38 @@
               </div>
             </div>
             <div class="card-body">
-              <form role="form">
+            <form class="form-container" action="sign_up.php" method="POST">
+            <?php if($error != ''){ ?>
+                <div class="alert alert-danger" role="alert"><?= $error; ?></div>
+            <?php } ?>
+
                 <div class="mb-3">
-                  <input type="text" class="form-control" placeholder="Name" aria-label="Name">
+                  <input type="text" name="name" class="form-control" placeholder="Name" aria-label="name">
                 </div>
                 <div class="mb-3">
-                  <input type="email" class="form-control" placeholder="Email" aria-label="Email">
+                  <input type="text" name="username" class="form-control" placeholder="Username" aria-label="username">
                 </div>
                 <div class="mb-3">
-                  <input type="password" class="form-control" placeholder="Password" aria-label="Password">
+                  <input type="email" name="email" class="form-control" placeholder="Email" aria-label="email" >
                 </div>
-                <div class="form-check form-check-info text-start">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-                  <label class="form-check-label" for="flexCheckDefault">
-                    Saya menyetujui <a href="javascript:;" class="text-dark font-weight-bolder">Syarat dan Ketentuan</a>
+                <div class="mb-3">
+                  <input type="password" name="password" class="form-control" placeholder="Password" aria-label="password" >
+                  <?php if($validate != '') {?>
+                            <p class="text-danger"><?= $validate; ?></p>
+                        <?php }?>
+                </div>
+                <div class="mb-3">
+                  <input type="password" name="repassword" class="form-control" placeholder="Repassword" aria-label="repassword" >
+                  <?php if($validate != '') {?>
+                            <p class="text-danger"><?= $validate; ?></p>
+                        <?php }?>
+                  
                   </label>
                 </div>
                 <div class="text-center">
-                  <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
+                  <button type="submit" name="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
                 </div>
-                <p class="text-sm mt-3 mb-0">Sudah memiliki akun? <a href="javascript:;" class="text-dark font-weight-bolder">Sign in</a></p>
+                <p class="text-sm mt-3 mb-0">Sudah memiliki akun? <a href="../pages/sign_in.php" class="text-dark font-weight-bolder">Sign in</a></p>
               </form>
             </div>
           </div>

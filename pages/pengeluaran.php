@@ -1,3 +1,12 @@
+<?php
+//inisialisasi session
+session_start();
+//mengecek username pada session
+if( !isset($_SESSION['username']) ){
+  $_SESSION['msg'] = 'anda harus login untuk mengakses halaman ini';
+  header('Location: sign_in.php');
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +29,8 @@
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/argon-dashboard.css" rel="stylesheet" />
+  <link href="assets/dataTables/dataTables.min.css" rel="stylesheet">
+
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -43,14 +54,6 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link " href="../pages/upload_barang.php">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Upload Barang</span>
-          </a>
-        </li> -->
         <li class="nav-item">
           <a class="nav-link " href="../pages/stok_barang.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -72,7 +75,7 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-collection text-info text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">pengeluaran</span>
+            <span class="nav-link-text ms-1">Pengeluaran</span>
           </a>
         </li>
         <li class="nav-item">
@@ -83,6 +86,14 @@
             <span class="nav-link-text ms-1">Tracking</span>
           </a>
           </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link active" href="../pages/pengeluaran.php">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">pengeluaran</span>
+          </a>
+        </li> -->
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akun</h6>
         </li>
@@ -95,9 +106,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/sign_in.php">
+          <a class="nav-link " href="../pages/logout.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
+              <i class="ni ni-collection text-info text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Sign Out</span>
           </a>
@@ -115,22 +126,22 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Pengeluaran</li>
-          </ol>
+            <!-- <li class="breadcrumb-item text-sm text-white active" aria-current="page">Pengeluaran</li> -->
+</ol>
           <h6 class="font-weight-bolder text-white mb-0">Pengeluaran</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            <div class="input-group">
+            <!-- <div class="input-group">
               <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
               <input type="text" class="form-control" placeholder="Type here...">
-            </div>
+            </div> -->
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
+                <span class="d-sm-inline d-none"><?php echo $_SESSION['username']; ?></span>
               </a>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -225,7 +236,89 @@
       </div>
     </nav>
     <!-- End Navbar -->
-    
+    <div class="table-upload">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Pengeluaran</h6>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <!-- // DESAIN TABLE // -->
+                    <tr>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id Pengeluaran</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Id Produk</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Barang</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stok</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Supplier</th>
+                      <th class="text-secondary opacity-7"></th>
+                      </tr>
+                      </thead>
+                  <tbody>
+                  <?php
+                  include('../koneksi.php');
+                  $query = "SELECT * FROM pengeluaran ORDER BY id_pengeluaran ASC";
+                  $result = mysqli_query($koneksi, $query);
+                  //mengecek apakah ada error ketika menjalankan query
+                  if(!$result){
+                   die ("Query Error: ".mysqli_errno($koneksi).
+                      " - ".mysqli_error($koneksi));
+                  }
+                  $no = 1;
+                  while($row = mysqli_fetch_assoc($result)) {
+                  ?>
+                    <tr>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $no ?>
+                        <td class="align-middle text-center text-sm">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["id_pengeluaran"] ?></span>
+                      </td>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["id_produk"] ?></span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["nama_barang"] ?></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["tanggal"] ?></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["total"] ?></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["harga_barang"] ?></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["total"] ?></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["supplier"] ?></span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="../pop/edit_pengeluaran.php?id_pengeluaran=<?php echo $row["id_pengeluaran"]; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit |
+                        <a href="../algoritma/up_proseshapus.php?id_produk=<?php echo $row['id_pengeluaran']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Hapus
+                        </a>
+                      </td>
+                    </tr>
+                    <?php 
+                  $no++; //untuk nomor urut terus bertambah 1
+                  } 
+                  ?>
+                    <div class="col-6 text-end">
+                  <a href="../pop/upload_pengeluaran.php" class="btn btn-outline-primary btn-sm mb-0">Tambah</a>
+             
+
   </main>
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
@@ -317,6 +410,10 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+  <script src="assets/dataTables/dataTables.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#datatables').DataTable();
+    });
 </body>
-
 </html>

@@ -2,6 +2,14 @@
   // memanggil file koneksi.php untuk membuat koneksi
 include '../koneksi.php';
 
+//inisialisasi session
+session_start();
+//mengecek username pada session
+if( !isset($_SESSION['username']) ){
+  $_SESSION['msg'] = 'anda harus login untuk mengakses halaman ini';
+  header('Location: ../pages/sign_in.php');
+}
+
   // mengecek apakah di url ada nilai GET id
   if (isset($_GET['id_produk'])) {
     // ambil nilai id dari url dan disimpan dalam variabel $id
@@ -80,7 +88,7 @@ include '../koneksi.php';
           </a>
         </li> -->
         <li class="nav-item">
-          <a class="nav-link " href="../pages/stok_barang.php">
+          <a class="nav-link active" href="../pages/stok_barang.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
             </div>
@@ -123,7 +131,7 @@ include '../koneksi.php';
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/sign_in.php">
+          <a class="nav-link " href="../pages/logout.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
             </div>
@@ -158,7 +166,7 @@ include '../koneksi.php';
             <li class="nav-item d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
+                <span class="d-sm-inline d-none"><?php echo $_SESSION['username']; ?></span>
               </a>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -255,52 +263,75 @@ include '../koneksi.php';
     <!-- End Navbar -->
     </head>
     <body>
-      <center>
-        <h1>Edit Produk <?php echo $data['nama_prod']; ?></h1>
-      <center>
-      <form method="POST" action="../algoritma/update_bar.php" enctype="multipart/form-data" >
-      <section class="base">
-        <!-- menampung nilai id produk yang akan di edit -->
-        <input name="id_produk" value="<?php echo $data['id_produk']; ?>"  hidden />
-        <div>
-          <label>Nama Produk</label>
-          <input type="text" name="nama_prod" value="<?php echo $data['nama_prod']; ?>" autofocus="" required="" />
-        </div>
-        <div>
-          <label>Deskripsi</label>
-         <input type="text" name="deskripsi" value="<?php echo $data['deskripsi']; ?>" />
-        </div>
-        <div>
-          <label>Stok</label>
-         <input type="text" name="stok" required=""value="<?php echo $data['stok']; ?>" />
-        </div>
-        <div>
-          <label>Harga</label>
-         <input type="text" name="harga" required="" value="<?php echo $data['harga']; ?>"/>
-         <div>
-          <label>Status</label>
-         <input type="text" name="status_prod" required=""value="<?php echo $data['status_prod']; ?>" />
-         </div>
-        <div>
-          <label>Kategori</label>
-         <input type="text" name="kategori" required="" value="<?php echo $data['kategori']; ?>"/>
-         </div>
-        <div>
-          <label>Variasi</label>
-         <input type="text" name="variasi" required="" value="<?php echo $data['variasi']; ?>"/>
-        </div>
-        <div>
-          <label>Gambar Produk</label>
-          <img src="../gambar/<?php echo $data['gambar_produk']; ?>" style="width: 120px;float: left;margin-bottom: 5px;">
-          <input type="file" name="gambar_produk" />
-          <i style="float: left;font-size: 11px;color: red">Abaikan jika tidak merubah gambar produk</i>
-        </div>
-        <div>
-         <button type="submit">Simpan Perubahan</button>
-        </div>
-        </section>
-      </form>
-  </body>
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="d-flex align-items-center">
+                <p class="mb-0">Edit Produk</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="text-uppercase text-sm">Produk <?php echo $data['nama_prod']; ?> </p>
+              <div class="row">
+                <div class="col-md-6">
+                <form method="post" action="../algoritma/update_bar.php" enctype="multipart/form-data">
+
+                <input name="id_produk" value="<?php echo $data['id_produk']; ?>"  hidden />
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Produk</label>
+                    <input class="form-control" type="text" name="nama_prod" value="<?php echo $data['nama_prod']; ?>" autofocus="" required="" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Deskripsi</label>
+                    <input class="form-control" type="text" name="deskripsi" value="<?php echo $data['deskripsi']; ?>" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Stok</label>
+                    <input class="form-control" type="text" name="stok" value="<?php echo $data['stok']; ?>" autofocus="" required="" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Harga</label>
+                    <input class="form-control" type="text" name="harga" value="<?php echo $data['harga']; ?>" required="" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Status</label>
+                    <input class="form-control" type="text" name="status_prod" value="<?php echo $data['status_prod']; ?>"  />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Kategori</label>
+                    <input class="form-control" type="text" name="kategori" value="<?php echo $data['kategori']; ?>" />
+                  </div>
+              </div>
+                <label for="example-text-input" class="form-control-label">Gambar Produk (jpeg/png)</label>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    
+                    <img src="../gambar/<?php echo $data['gambar_produk']; ?>" style="width: 100px;float: left;margin-bottom: 10px;">
+                    <input class="form-control" type="file" name="gambar_produk" value="<?php echo $data['gambar_produk']; ?>" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Variasi</label>
+                    <input class="form-control" type="text" name="variasi" value="<?php echo $data['variasi']; ?>" />
+                  </div>
+                </div>
+                  <div class="d-flex align-items-center">
+                <button type="submit" class="btn btn-primary btn-sm ms-auto">Simpan</button>
+              </div>
+</body>
 </html>
   </main>
   <div class="fixed-plugin">

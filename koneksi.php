@@ -2,7 +2,7 @@
   $host = "localhost"; 
   $user = "root";
   $pass = "";
-  $nama_db = "project3"; //nama database
+  $nama_db = "skincare_app"; //nama database
   $koneksi = mysqli_connect($host,$user,$pass,$nama_db); //pastikan urutan nya seperti ini, jangan tertukar
 
   if(!$koneksi){ //jika tidak terkoneksi maka akan tampil error
