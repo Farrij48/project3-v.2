@@ -30,16 +30,16 @@ if( isset($_POST['submit']) ){
                 if(password_verify($password, $hash)){
                     $_SESSION['username'] = $username;
                 
-                    header('Location: dashboard.php');
+                    echo "<script>alert('Selamat Anda Berhasil Sign In.');window.location='dashboard.php';</script>";
                 }
                              
             //jika gagal maka akan menampilkan pesan error
             } else {
-                $error =  'Register User Gagal !!';
+              echo "<script>alert('Sign In Gagal, Pastikan data tersign up dan Cek kembali Username atau Password anda.');window.location='sign_in.php';</script>";
             }
              
         }else {
-            $error =  'Data tidak boleh kosong !!';
+          echo "<script>alert('Data tidak boleh kosong.');window.location='sign_in.php';</script>";
         }
     } 
 ?>

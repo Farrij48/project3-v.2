@@ -123,7 +123,7 @@ if( !isset($_SESSION['username']) ){
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="dashboard.php">Dashboard</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Stok barang</li>
           </ol>
           <h6 class="font-weight-bolder text-white mb-0">Stok barang</h6>
@@ -247,21 +247,22 @@ if( !isset($_SESSION['username']) ){
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      
                       <th class="text-sm mb-0">No</th>
+                      <th class="text-sm mb-0">Item Id</th>
                       <th class="text-sm mb-0">Produk</th>
                       <th class="text-sm mb-0">Deskripsi</th>
                       <th class="text-sm mb-0">Stok</th>
                       <th class="text-sm mb-0">Harga</th>
-                      <th class="text-sm mb-0">Status</th>
-                      <th class="text-sm mb-0">Kategori</th>
+                      <th class="text-sm mb-0">Tag</th>
+                      <th class="text-sm mb-0">Varian</th>
+                      <th class="text-sm mb-0">Rating</th>
                       <th class="text-sm mb-0"></th>
                       </tr>
                       </thead>
                   <tbody>
                   <?php
                   include('../koneksi.php');
-                  $query = "SELECT * FROM tb_upload_barang ORDER BY id_produk ASC";
+                  $query = "SELECT * FROM items_tb ORDER BY item_id ASC";
                   $result = mysqli_query($koneksi, $query);
                   //mengecek apakah ada error ketika menjalankan query
                   if(!$result){
@@ -274,36 +275,42 @@ if( !isset($_SESSION['username']) ){
                     <tr>
                     <td class="align-middle text-center">
                         <span class="text-sm mb-0"><?php echo $no ?>
+                        <td class="align-middle text-center text-sm">
+                        <span class="text-sm mb-0"><?php echo $row["item_id"] ?></span>
+                      
                         <td>
                         <div class="d-flex px-2 py-1">
                           <div>
-                            <img src="../gambar/<?php echo $row['gambar_produk']; ?>" class="avatar avatar-sm me-3" alt="user1">
+                            <img src="<?php echo $row['image']; ?>" class="avatar avatar-sm me-3" alt="user1">
                           </div>
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="text-sm mb-0"><?php echo $row["nama_prod"] ?></h6>
-                            <p class="text-sm mb-0"><?= $row["variasi"] ?> <span>grm</span></p>
+                            <h6 class="text-sm mb-0"><?php echo $row["name"] ?></h6>
+                            <p class="text-sm mb-0"><?= $row["sizes"] ?> <span>ml</span></p>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-sm mb-0"><?php echo $row["deskripsi"] ?></p>
+                        <p class="text-sm mb-0"><?php echo $row["description"] ?></p>
                       </td>
-                      <td class="align-middle text-center text-sm">
+                      <td class="align-middle text-center">
                         <span class="text-sm mb-0"><?php echo $row["stok"] ?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-sm mb-0"><?php echo $row["harga"] ?></span>
+                        <span class="text-sm mb-0"><?php echo $row["price"] ?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="badge badge-sm bg-gradient-success"><?php echo $row["status_prod"] ?></span>
+                        <span class="text-sm mb-0"><?php echo $row["varians"] ?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-sm mb-0"><?php echo $row["kategori"] ?></span>
+                        <span class="text-sm mb-0"><?php echo $row["tags"] ?></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-sm mb-0"><?php echo $row["rating"] ?></span>
                       </td>
                       <td class="align-middle">
-                        <a href="../pop/edit_barang.php?id_produk=<?php echo $row["id_produk"]; ?>" class="text-sm mb-0" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="../pop/edit_barang.php?item_id=<?php echo $row["item_id"]; ?>" class="text-sm mb-0" data-toggle="tooltip" data-original-title="Edit user">
                           Edit |
-                        <a href="../algoritma/up_proseshapus.php?id_produk=<?php echo $row['id_produk']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')" class="text-sm mb-0" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="../algoritma/up_proseshapus.php?item_id=<?php echo $row['item_id']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')" class="text-sm mb-0" data-toggle="tooltip" data-original-title="Edit user">
                           Hapus
                         </a>
                       </td>

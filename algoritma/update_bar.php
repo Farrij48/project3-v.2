@@ -3,30 +3,31 @@
 include '../koneksi.php';
 
 	// membuat variabel untuk menampung data dari form
-  $id = $_POST['id_produk'];
-  $nama_prod     = $_POST['nama_prod'];
-  $deskripsi     = $_POST['deskripsi'];
-  $stok          = $_POST['stok'];
-  $harga         = $_POST['harga'];
-  $status_prod   = $_POST['status_prod'];
-  $kategori      = $_POST['kategori'];
-  $variasi       = $_POST['variasi'];
-  $gambar_produk = $_FILES['gambar_produk']['name'];
+  $id = $_POST['item_id'];
+  $name     = $_POST['name'];
+  $rating     = $_POST['rating'];
+  $tags          = $_POST['tags'];
+  $price         = $_POST['price'];
+  $varians       = $_POST['varians'];
+  $sizes         = $_POST['sizes'];
+  $description   = $_POST['description'];
+  $stok       = $_POST['stok'];
+  $image = $_FILES['image']['name'];
   
   //cek dulu jika merubah gambar produk jalankan coding ini
-  if($gambar_produk != "") {
+  if($image != "") {
     $ekstensi_diperbolehkan = array('png','jpg'); //ekstensi file gambar yang bisa diupload 
-    $x = explode('.', $gambar_produk); //memisahkan nama file dengan ekstensi yang diupload
+    $x = explode('.', $image); //memisahkan nama file dengan ekstensi yang diupload
     $ekstensi = strtolower(end($x));
-    $file_tmp = $_FILES['gambar_produk']['tmp_name'];   
+    $file_tmp = $_FILES['image']['tmp_name'];   
     $angka_acak     = rand(1,999);
-    $nama_gambar_baru = $angka_acak.'-'.$gambar_produk; //menggabungkan angka acak dengan nama file sebenarnya
+    $nama_gambar_baru = $angka_acak.'-'.$image; //menggabungkan angka acak dengan nama file sebenarnya
     if(in_array($ekstensi, $ekstensi_diperbolehkan) === true)  {
-                  move_uploaded_file($file_tmp, '../gambar/'.$nama_gambar_baru); //memindah file gambar ke folder gambar
+                  move_uploaded_file($file_tmp, '../gambar/'.$image); //memindah file gambar ke folder gambar
                       
                     // jalankan query UPDATE berdasarkan ID yang produknya kita edit
-                   $query  = "UPDATE tb_upload_barang SET nama_prod = '$nama_prod', deskripsi = '$deskripsi', stok = '$stok', harga = '$harga', status_prod = '$status_prod', kategori = '$kategori', variasi = '$variasi', gambar_produk = '$nama_gambar_baru'";
-                    $query .= "WHERE id_produk = '$id'";
+                   $query  = "UPDATE items_tb SET name = '$name', rating = '$rating', tags = '$tags', price = '$price', varians = '$varians', sizes = '$sizes', description = '$description', stok = '$stok', gambar_produk = '$nama_gambar_baru'";
+                    $query .= "WHERE item_id = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     // periska query apakah ada error
                     if(!$result){
@@ -43,8 +44,8 @@ include '../koneksi.php';
               }
     } else {
       // jalankan query UPDATE berdasarkan ID yang produknya kita edit
-      $query  = "UPDATE tb_upload_barang SET nama_prod = '$nama_prod', deskripsi = '$deskripsi', stok = '$stok', harga = '$harga', status_prod = '$status_prod', kategori = '$kategori', variasi = '$variasi'";
-      $query .= "WHERE id_produk = '$id'";
+      $query  = "UPDATE items_tb SET name = '$name', rating = '$rating', tags = '$tags', price = '$price', varians = '$varians', sizes = '$sizes', description = '$description', stok = '$stok'";
+      $query .= "WHERE item_id = '$id'";
       $result = mysqli_query($koneksi, $query);
       // periska query apakah ada error
       if(!$result){

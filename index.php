@@ -6,7 +6,7 @@ session_start();
 $error = '';
 $validate = '';
 //mengecek apakah sesssion username tersedia atau tidak jika tersedia maka akan diredirect ke halaman index
-if( isset($_SESSION['username']) ) header('Location: pages/dashboard.php');
+if( isset($_SESSION['username']) ) header('Location: ./pages/dashboard.php');
 //mengecek apakah form disubmit atau tidak
 if( isset($_POST['submit']) ){
          
@@ -15,31 +15,32 @@ if( isset($_POST['submit']) ){
         //cara sederhana mengamankan dari sql injection
         $username = mysqli_real_escape_string($koneksi, $username);
          // menghilangkan backshlases
-        $admin_password = stripslashes($_POST['admin_password']);
+        $password = stripslashes($_POST['password']);
          //cara sederhana mengamankan dari sql injection
-        $admin_password = mysqli_real_escape_string($koneksi, $admin_password);
+        $password = mysqli_real_escape_string($koneksi, $password);
         
         //cek apakah nilai yang diinputkan pada form ada yang kosong atau tidak
-        if(!empty(trim($username)) && !empty(trim($admin_password))){
+        if(!empty(trim($username)) && !empty(trim($password))){
             //select data berdasarkan username dari database
-            $query      = "SELECT * FROM user_admin WHERE username = '$username'";
+            $query      = "SELECT * FROM user_admin WHERE username='$username'";
             $result     = mysqli_query($koneksi, $query);
             $rows       = mysqli_num_rows($result);
             if ($rows != 0) {
-                $hash   = mysqli_fetch_assoc($result)['admin_password'];
-                if(password_verify($admin_password, $hash)){
+                $hash   = mysqli_fetch_assoc($result)['password'];
+                if(password_verify($password, $hash)){
                     $_SESSION['username'] = $username;
+                    
                 
-                    header('Location: pages/dashboard.php');
+                    echo "<script>alert('Selamat Anda Berhasil Sign In.');window.location='./pages/dashboard.php';</script>";
                 }
                              
             //jika gagal maka akan menampilkan pesan error
             } else {
-                $error =  'Register User Gagal !!';
+              echo "<script>alert('Sign In Gagal, Cek kembali Username atau Password anda.');window.location='index.php';</script>";
             }
              
         }else {
-            $error =  'Data tidak boleh kosong !!';
+          echo "<script>alert('Data tidak boleh kosong.');window.location='index.php';</script>";
         }
     } 
 ?>
@@ -140,7 +141,7 @@ if( isset($_POST['submit']) ){
                       <input type="text" name="username" class="form-control form-control-lg" placeholder="Username" aria-label="username">
                     </div>
                     <div class="mb-3">
-                      <input type="password" name="admin_password" class="form-control form-control-lg" placeholder="Password" aria-label="admin_password">
+                      <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" aria-label="password">
                       <?php if($validate != '') {?>
                             <p class="text-danger"><?= $validate; ?></p>
                         <?php }?>
@@ -158,7 +159,7 @@ if( isset($_POST['submit']) ){
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
                     Tidak Punya Akun?
-                    <a href="./pages/sign_up.php" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                    <a href="pages/sign_up.php" class="text-primary text-gradient font-weight-bold">Sign up</a>
                   </p>
                 </div>
               </div>

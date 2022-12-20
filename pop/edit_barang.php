@@ -11,12 +11,12 @@ if( !isset($_SESSION['username']) ){
 }
 
   // mengecek apakah di url ada nilai GET id
-  if (isset($_GET['id_produk'])) {
+  if (isset($_GET['item_id'])) {
     // ambil nilai id dari url dan disimpan dalam variabel $id
-    $id_produk = ($_GET["id_produk"]);
+    $item_id = ($_GET["item_id"]);
 
     // menampilkan data dari database yang mempunyai id=$id
-    $query = "SELECT * FROM tb_upload_barang WHERE id_produk='$id_produk'";
+    $query = "SELECT * FROM items_tb WHERE item_id='$item_id'";
     $result = mysqli_query($koneksi, $query);
     // jika data gagal diambil maka akan tampil error berikut
     if(!$result){
@@ -150,10 +150,11 @@ if( !isset($_SESSION['username']) ){
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tables</li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="../pages/dashboard.php">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="../pages/stok_barang.php">Stok Barang</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Edit Produk</li>
           </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Tables</h6>
+          <h6 class="font-weight-bolder text-white mb-0">Edit Produk</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -273,59 +274,65 @@ if( !isset($_SESSION['username']) ){
               </div>
             </div>
             <div class="card-body">
-              <p class="text-uppercase text-sm">Produk <?php echo $data['nama_prod']; ?> </p>
+              <p class="text-uppercase text-sm">Produk <?php echo $data['name']; ?> </p>
               <div class="row">
                 <div class="col-md-6">
                 <form method="post" action="../algoritma/update_bar.php" enctype="multipart/form-data">
 
-                <input name="id_produk" value="<?php echo $data['id_produk']; ?>"  hidden />
+                <input name="item_id" value="<?php echo $data['item_id']; ?>"  hidden />
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Produk</label>
-                    <input class="form-control" type="text" name="nama_prod" value="<?php echo $data['nama_prod']; ?>" autofocus="" required="" />
+                    <input class="form-control" type="text" name="name" value="<?php echo $data['name']; ?>" autofocus="" required="" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Deskripsi</label>
-                    <input class="form-control" type="text" name="deskripsi" value="<?php echo $data['deskripsi']; ?>" />
+                    <label for="example-text-input" class="form-control-label">Rating</label>
+                    <input class="form-control" type="text" name="rating" value="<?php echo $data['rating']; ?>" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Stok</label>
-                    <input class="form-control" type="text" name="stok" value="<?php echo $data['stok']; ?>" autofocus="" required="" />
+                    <label for="example-text-input" class="form-control-label">Tags</label>
+                    <input class="form-control" type="text" name="tags" value="<?php echo $data['tags']; ?>" autofocus="" required="" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Harga</label>
-                    <input class="form-control" type="text" name="harga" value="<?php echo $data['harga']; ?>" required="" />
+                    <input class="form-control" type="text" name="price" value="<?php echo $data['price']; ?>" required="" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Status</label>
-                    <input class="form-control" type="text" name="status_prod" value="<?php echo $data['status_prod']; ?>"  />
+                    <label for="example-text-input" class="form-control-label">Varian</label>
+                    <input class="form-control" type="text" name="varians" value="<?php echo $data['varians']; ?>"  />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Kategori</label>
-                    <input class="form-control" type="text" name="kategori" value="<?php echo $data['kategori']; ?>" />
+                    <label for="example-text-input" class="form-control-label">Size</label>
+                    <input class="form-control" type="text" name="sizes" value="<?php echo $data['sizes']; ?>" />
                   </div>
               </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Deskripsi</label>
+                    <input class="form-control" type="text" name="description" value="<?php echo $data['description']; ?>" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Stok</label>
+                    <input class="form-control" type="text" name="stok" value="<?php echo $data['stok']; ?>" />
+                  </div>
+                </div>
                 <label for="example-text-input" class="form-control-label">Gambar Produk (jpeg/png)</label>
                 <div class="col-md-6">
                   <div class="form-group">
                     
-                    <img src="../gambar/<?php echo $data['gambar_produk']; ?>" style="width: 100px;float: left;margin-bottom: 10px;">
-                    <input class="form-control" type="file" name="gambar_produk" value="<?php echo $data['gambar_produk']; ?>" />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Variasi</label>
-                    <input class="form-control" type="text" name="variasi" value="<?php echo $data['variasi']; ?>" />
+                    <img src="<?php echo $data['image']; ?>" style="width: 100px;float: left;margin-bottom: 10px;">
+                    <input class="form-control" type="file" name="image" value="<?php echo $data['image']; ?>" />
                   </div>
                 </div>
                   <div class="d-flex align-items-center">

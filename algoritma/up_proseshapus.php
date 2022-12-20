@@ -1,10 +1,10 @@
 <?php
 include '../koneksi.php';
-$id_produk = $_GET["id_produk"];
+$id = $_GET["item_id"];
 //mengambil id yang ingin dihapus
 
     //jalankan query DELETE untuk menghapus data
-    $query = "DELETE FROM tb_upload_barang WHERE id_produk='$id_produk' ";
+    $query = "DELETE FROM items_tb WHERE item_id='$id' ";
     $hasil_query = mysqli_query($koneksi, $query);
 
     //periksa query, apakah ada kesalahan

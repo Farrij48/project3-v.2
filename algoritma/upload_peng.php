@@ -4,19 +4,19 @@ include '../koneksi.php';
 
 	// membuat variabel untuk menampung data dari form
   $id_pengeluaran   = $_POST['id_pengeluaran'];
-  $id_produk     = $_POST['id_produk'];
-  $nama_barang    = $_POST['nama_barang'];
-  $tanggal    = $_POST['tanggal'];
-  $stok = $_POST['stok'];
-  $harga_barang = $_POST['harga_barang'];
-  $total = $_POST['total'];
-  $supplier = $_POST['supplier'];
+  $item_id          = $_POST['item_id'];
+  $name             = $_POST['name'];
+  $tanggal          = $_POST['tanggal'];
+  $stok             = $_POST['stok'];
+  $harga_barang     = $_POST['harga_barang'];
+  $total            = $_POST['total'];
+  $supplier         = $_POST['supplier'];
 
 
 
        
                   // jalankan query INSERT untuk menambah data ke database pastikan sesuai urutan (id tidak perlu karena dibikin otomatis)
-                  $query = "INSERT INTO pengeluaran (id_produk, nama_barang, tanggal, stok, total, harga_barang, supplier) VALUES ('$id_produk', '$nama_barang', '$tanggal', '$stok', '$total', '$harga_barang', '$supplier')";
+                  $query = "INSERT INTO pengeluaran (item_id, name, tanggal, stok, total, harga_barang, supplier) VALUES ('$item_id', '$name', '$tanggal', '$stok', '$total', '$harga_barang', '$supplier')";
                   $result = mysqli_query($koneksi, $query);
                   // periska query apakah ada error
                   if(!$result){

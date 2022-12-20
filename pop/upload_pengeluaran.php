@@ -124,8 +124,9 @@ if( !isset($_SESSION['username']) ){
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tables</li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="../pages/dashboard.php">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="../pages/pengeluaran.php">Pengeluaran</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Edit Pengeluaran</li>
           </ol>
           <h6 class="font-weight-bolder text-white mb-0">Tables</h6>
         </nav>
@@ -252,8 +253,8 @@ if( !isset($_SESSION['username']) ){
                 <div class="col-md-6">
                 <form method="post" action="../algoritma/upload_peng.php" enctype="multipart/form-data">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Id Produk</label>
-                    <input class="form-control" type="text" name="id_produk" autofocus="" required="" />
+                    <label for="example-text-input" class="form-control-label">Item ID</label>
+                    <input class="form-control" type="text" name="item_id" autofocus="" required="" />
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -264,14 +265,14 @@ if( !isset($_SESSION['username']) ){
                   </div>
                   <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Produk</label>
-                    <input class="form-control" type="text" name="nama_barang" required="" />
+                    <label for="example-text-input" class="form-control-label">Nama Produk</label>
+                    <input class="form-control" type="text" name="name" required="" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Tanggal</label>
-                    <input class="form-control" type="text" name="tanggal" autofocus="" required="" />
+                    <input class="form-control" type="date" name="tanggal" autofocus="" required="" />
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -282,14 +283,14 @@ if( !isset($_SESSION['username']) ){
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Harga</label>
-                    <input class="form-control" type="text" name="harga_barang"  />
+                    <label for="example-text-input" class="form-control-label">Total</label>
+                    <input class="form-control" type="text" name="total"  />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Total</label>
-                    <input class="form-control" type="text" name="total"  />
+                    <label for="example-text-input" class="form-control-label">Harga</label>
+                    <input class="form-control" type="text" name="harga_barang"  />
                   </div>
                 </div>
                 <div class="col-md-6">

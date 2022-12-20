@@ -125,17 +125,16 @@ if( !isset($_SESSION['username']) ){
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-            <!-- <li class="breadcrumb-item text-sm text-white active" aria-current="page">Pengeluaran</li> -->
-</ol>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="dashboard.php">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Pengeluaran</li></ol>
           <h6 class="font-weight-bolder text-white mb-0">Pengeluaran</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            <!-- <div class="input-group">
+            <div class="input-group">
               <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
               <input type="text" class="form-control" placeholder="Type here...">
-            </div> -->
+            </div>
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
@@ -250,13 +249,13 @@ if( !isset($_SESSION['username']) ){
                     <!-- // DESAIN TABLE // -->
                     <tr>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id Pengeluaran</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Id Produk</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Barang</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id Pengeluaran</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Item ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Produk</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stok</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Supplier</th>
                       <th class="text-secondary opacity-7"></th>
                       </tr>
@@ -277,19 +276,22 @@ if( !isset($_SESSION['username']) ){
                     <tr>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $no ?>
-                        <td class="align-middle text-center text-sm">
+                        <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $row["id_pengeluaran"] ?></span>
-                      </td>
+                      
                         </div>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["id_produk"] ?></span>
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["item_id"] ?></span>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["nama_barang"] ?></span>
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["name"] ?></span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $row["tanggal"] ?></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["stok"] ?></span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $row["total"] ?></span>
@@ -298,15 +300,12 @@ if( !isset($_SESSION['username']) ){
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $row["harga_barang"] ?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["total"] ?></span>
-                      </td>
-                      <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $row["supplier"] ?></span>
                       </td>
                       <td class="align-middle">
                         <a href="../pop/edit_pengeluaran.php?id_pengeluaran=<?php echo $row["id_pengeluaran"]; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit |
-                        <a href="../algoritma/up_proseshapus.php?id_produk=<?php echo $row['id_pengeluaran']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="../algoritma/up_proseshapus.php?item_id=<?php echo $row['id_pengeluaran']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Hapus
                         </a>
                       </td>

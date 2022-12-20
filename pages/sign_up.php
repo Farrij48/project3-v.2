@@ -33,8 +33,8 @@ if( isset($_POST['submit']) ){
                     //jika insert data berhasil maka akan diredirect ke halaman index.php serta menyimpan data username ke session
                     if ($result) {
                         $_SESSION['username'] = $username;
-                        
                         echo "<script>alert('Berhasil Sign Up.');window.location='dashboard.php';</script>";
+                        
                      
                     //jika gagal maka akan menampilkan pesan error
                     } else {
@@ -54,7 +54,7 @@ if( isset($_POST['submit']) ){
     //fungsi untuk mengecek username apakah sudah terdaftar atau belum
     function cek_nama($username,$koneksi){
         $nama = mysqli_real_escape_string($koneksi, $username);
-        $query = "SELECT * FROM user_admin WHERE username = '$name'";
+        $query = "SELECT * FROM user_admin WHERE username='$username'";
         if( $result = mysqli_query($koneksi, $query) ) return mysqli_num_rows($result);
     }
 ?>
