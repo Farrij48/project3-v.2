@@ -324,7 +324,7 @@ if( !isset($_SESSION['username']) ){
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Stok</label>
-                    <input class="form-control" type="text" name="stok" value="<?php echo $data['stok']; ?>" />
+                    <input class="form-control" type="text" name="stok" value="<?php echo $data['stok']; ?>" DISABLED/>
                   </div>
                 </div>
                 <label for="example-text-input" class="form-control-label">Gambar Produk (jpeg/png)</label>

@@ -271,7 +271,7 @@ if( !isset($_SESSION['username']) ){
               </div>
             </div>
             <div class="card-body">
-              <p class="text-uppercase text-sm">Produk <?php echo $data['nama_barang']; ?> </p>
+              <p class="text-uppercase text-sm">Produk <?php echo $data['name']; ?> </p>
               <div class="row">
                 <div class="col-md-6">
                 <form method="post" action="../algoritma/update_peng.php" enctype="multipart/form-data">
@@ -284,13 +284,13 @@ if( !isset($_SESSION['username']) ){
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Id Produk</label>
-                    <input class="form-control" type="text" name="id_produk" value="<?php echo $data['id_produk']; ?>" />
+                    <input class="form-control" type="text" name="id_produk" value="<?php echo $data['item_id']; ?>" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Produk</label>
-                    <input class="form-control" type="text" name="nama_barang" value="<?php echo $data['nama_barang']; ?>" autofocus="" required="" />
+                    <input class="form-control" type="text" name="name" value="<?php echo $data['name']; ?>" autofocus="" required="" />
                   </div>
                 </div>
                 <div class="col-md-6">

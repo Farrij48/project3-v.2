@@ -85,11 +85,11 @@ if( !isset($_SESSION['username']) ){
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/tracking.php">
+          <a class="nav-link " href="../pages/pengguna.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Tracking</span>
+            <span class="nav-link-text ms-1">Pengguna</span>
           </a>
         </li>
         <li class="nav-item mt-3">
@@ -131,8 +131,8 @@ if( !isset($_SESSION['username']) ){
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group">
-              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" placeholder="Type here...">
+              <!-- <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" placeholder="Type here..."> -->
             </div>
           </div>
           <ul class="navbar-nav  justify-content-end">

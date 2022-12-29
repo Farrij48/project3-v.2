@@ -126,7 +126,7 @@ if( !isset($_SESSION['username']) ){
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="../pages/dashboard.php">Dashboard</a></li>
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="../pages/pengeluaran.php">Pengeluaran</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Edit Pengeluaran</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Upload Pengeluaran</li>
           </ol>
           <h6 class="font-weight-bolder text-white mb-0">Tables</h6>
         </nav>
@@ -254,7 +254,7 @@ if( !isset($_SESSION['username']) ){
                 <form method="post" action="../algoritma/upload_peng.php" enctype="multipart/form-data">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Item ID</label>
-                    <input class="form-control" type="text" name="item_id" autofocus="" required="" />
+                    <input class="form-control" type="text" name="item_id" id="item_id" onkeyup="isi_otomatis()" autofocus="" required="" />
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -266,7 +266,7 @@ if( !isset($_SESSION['username']) ){
                   <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Nama Produk</label>
-                    <input class="form-control" type="text" name="name" required="" />
+                    <input class="form-control" type="text" name="name" id="name" required="" />
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -278,7 +278,7 @@ if( !isset($_SESSION['username']) ){
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Stok</label>
-                    <input class="form-control" type="text" name="stok" required="" />
+                    <input class="form-control" type="text" name="stok" id="stok" required="" />
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -302,6 +302,22 @@ if( !isset($_SESSION['username']) ){
                   <div class="d-flex align-items-center">
                 <button type="submit" class="btn btn-primary btn-sm ms-auto">Upload</button>
               </div>
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script type="text/javascript">
+            function isi_otomatis(){
+                var item_id = $("#item_id").val();
+                $.ajax({
+                    url: '../algoritma/autofill_peng.php',
+                    data:"item_id="+item_id ,
+                }).success(function (data) {
+                    var json = data,
+                    obj = JSON.parse(json);
+                    $('#name').val(obj.name);
+                    $('#stok').val(obj.stok);
+                    
+                });
+            }
+        </script>
   </body>
 </html>
   </main>

@@ -1,10 +1,10 @@
 <?php
 include '../koneksi.php';
-$id = $_GET["item_id"];
+$id = $_GET["id_pengeluaran"];
 //mengambil id yang ingin dihapus
 
     //jalankan query DELETE untuk menghapus data
-    $query = "DELETE FROM items_tb WHERE item_id='$id' ";
+    $query = "DELETE FROM pengeluaran WHERE id_pengeluaran='$id' ";
     $hasil_query = mysqli_query($koneksi, $query);
 
     //periksa query, apakah ada kesalahan
@@ -12,6 +12,6 @@ $id = $_GET["item_id"];
       die ("Gagal menghapus data: ".mysqli_errno($koneksi).
        " - ".mysqli_error($koneksi));
     } else {
-      echo "<script>alert('Data berhasil dihapus.');window.location='../pages/stok_barang.php';</script>";
+      echo "<script>alert('Data berhasil dihapus.');window.location='../pages/pengeluaran.php';</script>";
     }
     

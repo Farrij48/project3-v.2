@@ -1,12 +1,11 @@
 <?php
-include '../koneksi.php';
-
+//inisialisasi session
 session_start();
-
-$user = $_SESSION['username'];
-$query=mysqli_query($koneksi,"SELECT * FROM user_admin where username='$user'")or die(mysqli_error());
-$row = mysqli_fetch_array($query);
-
+//mengecek username pada session
+if( !isset($_SESSION['username']) ){
+  $_SESSION['msg'] = 'anda harus login untuk mengakses halaman ini';
+  header('Location: sign_in.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,17 +28,15 @@ $row = mysqli_fetch_array($query);
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
-  <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+  <link id="pagestyle" href="../assets/css/argon-dashboard.css" rel="stylesheet" />
 </head>
 
-<body class="g-sidenav-show bg-gray-100">
-  <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
-    <span class="mask bg-primary opacity-6"></span>
-  </div>
+<body class="g-sidenav-show   bg-gray-100">
+  <div class="min-height-300 bg-primary position-absolute w-100"></div>
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
+      <a class="navbar-brand m-0" href=" link " target="_blank">
         <img src="../assets/img/logoetalase.png" class="navbar-brand-img h-100" alt="main_logo">
         <span class="ms-1 font-weight-bold">Etalase Talisya</span>
       </a>
@@ -78,7 +75,8 @@ $row = mysqli_fetch_array($query);
             </div>
             <span class="nav-link-text ms-1">Pemesanan</span>
           </a>
-          <li class="nav-item">
+        </li>
+        <li class="nav-item">
           <a class="nav-link " href="../pages/pengeluaran.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-collection text-info text-sm opacity-10"></i>
@@ -86,9 +84,8 @@ $row = mysqli_fetch_array($query);
             <span class="nav-link-text ms-1">Pengeluaran</span>
           </a>
         </li>
-        </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/pengguna.php">
+          <a class="nav-link active" href="../pages/pengguna.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
             </div>
@@ -96,10 +93,10 @@ $row = mysqli_fetch_array($query);
           </a>
         </li>
         <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akun</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="../pages/profile.php">
+          <a class="nav-link " href="../pages/profile.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
             </div>
@@ -120,40 +117,38 @@ $row = mysqli_fetch_array($query);
       
     </div>
   </aside>
-  <div class="main-content position-relative max-height-vh-100 h-100">
+  <main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg bg-transparent shadow-none position-absolute px-4 w-100 z-index-2 mt-n11">
-      <div class="container-fluid py-1">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+      <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 ps-2 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="text-white opacity-5" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Profile</li>
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Pengguna</li>
           </ol>
-          <h6 class="text-white font-weight-bolder ms-2">Profile</h6>
+          <h6 class="font-weight-bolder text-white mb-0">Pengguna</h6>
         </nav>
-        <div class="collapse navbar-collapse me-md-0 me-sm-4 mt-sm-0 mt-2" id="navbar">
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group">
-              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" placeholder="Type here...">
+              <!-- <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" placeholder="Type here..."> -->
             </div>
           </div>
-          <ul class="navbar-nav justify-content-end">
+          <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
+                <span class="d-sm-inline d-none"><?php echo $_SESSION['username']; ?></span>
               </a>
             </li>
-            <li class="nav-item d-xl-none ps-3 pe-0 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white p-0">
-                <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
-                  <div class="sidenav-toggler-inner">
-                    <i class="sidenav-toggler-line bg-white"></i>
-                    <i class="sidenav-toggler-line bg-white"></i>
-                    <i class="sidenav-toggler-line bg-white"></i>
-                  </div>
-                </a>
+            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line bg-white"></i>
+                  <i class="sidenav-toggler-line bg-white"></i>
+                  <i class="sidenav-toggler-line bg-white"></i>
+                </div>
               </a>
             </li>
             <li class="nav-item px-3 d-flex align-items-center">
@@ -165,12 +160,12 @@ $row = mysqli_fetch_array($query);
               <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-bell cursor-pointer"></i>
               </a>
-              <ul class="dropdown-menu dropdown-menu-end px-2 py-3 ms-n4" aria-labelledby="dropdownMenuButton">
+              <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                 <li class="mb-2">
                   <a class="dropdown-item border-radius-md" href="javascript:;">
                     <div class="d-flex py-1">
                       <div class="my-auto">
-                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3">
+                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
                       </div>
                       <div class="d-flex flex-column justify-content-center">
                         <h6 class="text-sm font-weight-normal mb-1">
@@ -188,7 +183,7 @@ $row = mysqli_fetch_array($query);
                   <a class="dropdown-item border-radius-md" href="javascript:;">
                     <div class="d-flex py-1">
                       <div class="my-auto">
-                        <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark me-3">
+                        <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
                       </div>
                       <div class="d-flex flex-column justify-content-center">
                         <h6 class="text-sm font-weight-normal mb-1">
@@ -205,7 +200,7 @@ $row = mysqli_fetch_array($query);
                 <li>
                   <a class="dropdown-item border-radius-md" href="javascript:;">
                     <div class="d-flex py-1">
-                      <div class="avatar avatar-sm bg-gradient-secondary me-3 my-auto">
+                      <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
                         <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                           <title>credit-card</title>
                           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -239,172 +234,68 @@ $row = mysqli_fetch_array($query);
       </div>
     </nav>
     <!-- End Navbar -->
-    
-    <div class="card shadow-lg mx-4 card-profile-bottom">
-      <div class="card-body p-3">
-        <div class="row gx-4">
-          <div class="col-auto">
-            <div class="avatar avatar-xl position-relative">
-              <img src="../assets/img/user.svg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
-            </div>
-          </div>
-          <div class="col-auto my-auto">
-            <div class="h-100">
-              <h5 class="mb-1">
-              <?php echo $_SESSION['username']; ?>
-              </h5>
-              <p class="mb-0 font-weight-bold text-sm">
-                Online
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-            <div class="nav-wrapper position-relative end-0">
-              <ul class="nav nav-pills nav-fill p-1" role="tablist">
-                <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 active d-flex align-items-center justify-content-center " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
-                    <i class="ni ni-app"></i>
-                    <span class="ms-2">App</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                    <i class="ni ni-email-83"></i>
-                    <span class="ms-2">Messages</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                    <i class="ni ni-settings-gear-65"></i>
-                    <span class="ms-2">Settings</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid py-4">
+    <div class="table-upload">
       <div class="row">
-        <div class="col-md-8">
-          <div class="card">
+        <div class="col-12">
+          <div class="card mb-4">
             <div class="card-header pb-0">
-              <div class="d-flex align-items-center">
-                <p class="mb-0">Edit Profile</p>
-              </div>
+              <h6>Daftar Pengguna Mobile</h6>
             </div>
-            <div class="card-body">
-              <p class="text-uppercase text-sm">Informasi Pengguna</p>
-              <div class="row">
-                <div class="col-md-6">
-                <form method="post" action="../algoritma/update_profil.php" enctype="multipart/form-data">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Username</label>
-                    <input class="form-control" type="text" name="username" id="username" value="<?php echo $row['username']?>">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Email address</label>
-                    <input class="form-control" type="email" name="email" id="email" value="<?php echo $row['email']?>">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Nama</label>
-                    <input class="form-control" type="text" name="name" id="name" value="<?php echo $row['name']?>">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Password</label>
-                    <input class="form-control" type="password" name="password" id="password" value="<?php echo $row['password']?>">
-                  </div>
-                </div>
-                <div class="d-flex align-items-center">
-                <button type="submit" class="btn btn-primary btn-sm ms-auto">Simpan</button>
-              </div>
-              <!--
-              <hr class="horizontal dark">
-              <p class="text-uppercase text-sm">Informasi Kontak</p>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Alamat</label>
-                    <input class="form-control" type="text" value="Jalan Surabaya, Kalipuro">
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Kota</label>
-                    <input class="form-control" type="text" value="Banyuwangi">
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Negara</label>
-                    <input class="form-control" type="text" value="Indonesia">
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Kode Pos</label>
-                    <input class="form-control" type="text" value="421111">
-                  </div>
-                </div>
-              </div>
-              <hr class="horizontal dark">
-              <p class="text-uppercase text-sm">About me</p>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">About me</label>
-                    <input class="form-control" type="text" value="Jalani hidup ini dengan style kamu.">
-                  </div>
-                </div>
-              </div>
--->
-            </div>
-          </div>
-        </div>
-        
-          
-            
-      <footer class="footer pt-3  ">
-        <div class="container-fluid">
-          <div class="row align-items-center justify-content-lg-between">
-            <div class="col-lg-6 mb-lg-0 mb-4">
-              <div class="copyright text-center text-sm text-muted text-lg-start">
-                © <script>
-                  document.write(new Date().getFullYear())
-                </script>,
-                Copyright <i class="fa fa-heart"></i> by
-                <a href="https://www.instagram.com/etalasetalisya.new/?hl=id" class="font-weight-bold" target="_blank">Etalase Talisya</a>
-                Shop
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                <li class="nav-item">
-                  <a href="https://www.instagram.com/etalasetalisya.new/?hl=id" class="nav-link text-muted" target="_blank">Instagram</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.instagram.com/etalasetalisya.new/?hl=id" class="nav-link text-muted" target="_blank">Whatsapp</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.instagram.com/etalasetalisya.new/?hl=id" class="nav-link text-muted" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.instagram.com/etalasetalisya.new/?hl=id" class="nav-link pe-0 text-muted" target="_blank">Tiktok</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
-  </div>
+            <div class="card-header pb-0">
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Username</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+                      <th class="text-secondary opacity-7"></th>
+                      </tr>
+                      </thead>
+                  <tbody>
+                  <?php
+                  include('../koneksi.php');
+                  $query = "SELECT * FROM user_tb ORDER BY user_id ASC";
+                  $result = mysqli_query($koneksi, $query);
+                  //mengecek apakah ada error ketika menjalankan query
+                  if(!$result){
+                   die ("Query Error: ".mysqli_errno($koneksi).
+                      " - ".mysqli_error($koneksi));
+                  }
+                  $no = 1;
+                  while($row = mysqli_fetch_assoc($result)) {
+                  ?>
+                    <tr>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $no ?>
+                      <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold"><?php echo $row["user_id"] ?></span>
+                      
+                      </div>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["user_name"] ?></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["user_email"] ?></span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="../pop/edit_barang.php?user_id=<?php echo $row["user_id"]; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit |
+                        <a href="../algoritma/up_proseshapus.php?user=<?php echo $row['user_id']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Hapus
+                        </a>
+                      </td>
+                    </tr>
+                    <?php 
+                  $no++; //untuk nomor urut terus bertambah 1
+                  } 
+                  ?>
+                    <div class="col-6 text-end">
+                  <!-- <a href="../pop/upload_barang.php" class="btn btn-outline-primary btn-sm mb-0">Tambah Barang</a> -->
+  </main>
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
       <i class="fa fa-cog py-2"> </i>
@@ -413,7 +304,7 @@ $row = mysqli_fetch_array($query);
       <div class="card-header pb-0 pt-3 ">
         <div class="float-start">
           <h5 class="mt-3 mb-0">Pengaturan Tema</h5>
-          <p>Ubah pengaturan tema sesuai selera.</p>
+          <p>ubah tampilan tema sesuai keinginan.</p>
         </div>
         <div class="float-end mt-4">
           <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
@@ -440,7 +331,7 @@ $row = mysqli_fetch_array($query);
         </a>
         <!-- Sidenav Type -->
         <div class="mt-3">
-          <h6 class="mb-0">Sidenav Type</h6>
+          <h6 class="mb-0">Tipe Sidenav</h6>
           <p class="text-sm">Pilih antara 2 jenis sidenav yang berbeda.</p>
         </div>
         <div class="d-flex">
@@ -449,6 +340,12 @@ $row = mysqli_fetch_array($query);
         </div>
         <p class="text-sm d-xl-none d-block mt-2">Anda dapat mengubah jenis sidenav hanya pada tampilan desktop.</p>
         <!-- Navbar Fixed -->
+        <div class="d-flex my-3">
+          <h6 class="mb-0">Navbar Fixed</h6>
+          <div class="form-check form-switch ps-0 ms-auto my-auto">
+            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+          </div>
+        </div>
         <hr class="horizontal dark my-sm-4">
         <div class="mt-2 mb-5 d-flex">
           <h6 class="mb-0">Light / Dark</h6>
@@ -456,15 +353,15 @@ $row = mysqli_fetch_array($query);
             <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
           </div>
         </div>
-        <a class="btn bg-gradient-dark w-100" href="Link Mobile APK">Download Mobile Apk</a>
-        <a class="btn btn-outline-dark w-100" href="Link website">Website</a>
+        <a class="btn bg-gradient-dark w-100" href="Link">Download Mobile Apk</a>
+        <a class="btn btn-outline-dark w-100" href="Link">Website</a>
         <div class="w-100 text-center">
-          <a class="github-button" href="https://github.com/creativetimofficial/argon-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
-          <h6 class="mt-3">Social media kami</h6>
-          <a href="https://twitter.com/intent/tweet?text=Check%20Argon%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fargon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+          <a class="github-button" href="link" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
+          <h6 class="mt-3">Sosial media kami</h6>
+          <a href="link" class="btn btn-dark mb-0 me-2" target="_blank">
             <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
           </a>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/argon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+          <a href="link" class="btn btn-dark mb-0 me-2" target="_blank">
             <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
           </a>
         </div>
@@ -490,4 +387,5 @@ $row = mysqli_fetch_array($query);
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
 </body>
+
 </html>

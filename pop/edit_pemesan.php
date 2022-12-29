@@ -1,13 +1,40 @@
 <?php
+  // memanggil file koneksi.php untuk membuat koneksi
+include '../koneksi.php';
+
 //inisialisasi session
 session_start();
 //mengecek username pada session
 if( !isset($_SESSION['username']) ){
   $_SESSION['msg'] = 'anda harus login untuk mengakses halaman ini';
-  header('Location: sign_in.php');
+  header('Location: ../pages/sign_in.php');
 }
-?>
 
+  // mengecek apakah di url ada nilai GET id
+  if (isset($_GET['order_id'])) {
+    // ambil nilai id dari url dan disimpan dalam variabel $id
+    $order_id = ($_GET["order_id"]);
+
+    // menampilkan data dari database yang mempunyai id=$id
+    $query = "SELECT * FROM orders_table WHERE order_id='$order_id'";
+    $result = mysqli_query($koneksi, $query);
+    // jika data gagal diambil maka akan tampil error berikut
+    if(!$result){
+      die ("Query Error: ".mysqli_errno($koneksi).
+         " - ".mysqli_error($koneksi));
+    }
+    // mengambil data dari database
+    $data = mysqli_fetch_assoc($result);
+      // apabila data tidak ada pada database maka akan dijalankan perintah ini
+       if (!count($data)) {
+          echo "<script>alert('Data tidak ditemukan pada database');window.location='../pages/stok_barang.php';</script>";
+       }
+  } else {
+    // apabila tidak ada data GET id pada akan di redirect ke index.php
+    echo "<script>alert('Masukkan data id.');</script>";
+  }         
+  ?>
+  
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,7 +80,7 @@ if( !isset($_SESSION['username']) ){
           </a>
         </li>
         <!-- <li class="nav-item">
-          <a class="nav-link " href="../pages/upload_barang.php">
+          <a class="nav-link active" href="../pages/upload_barang.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
             </div>
@@ -69,7 +96,7 @@ if( !isset($_SESSION['username']) ){
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/pemesanan.php">
+          <a class="nav-link active" href="../pages/pemesanan.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-app text-info text-sm opacity-10"></i>
             </div>
@@ -85,7 +112,7 @@ if( !isset($_SESSION['username']) ){
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="../pages/tracking.php">
+          <a class="nav-link " href="../pages/tracking.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
             </div>
@@ -93,7 +120,7 @@ if( !isset($_SESSION['username']) ){
           </a>
         </li>
         <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akun</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
         </li>
         <li class="nav-item">
           <a class="nav-link " href="../pages/profile.php">
@@ -123,10 +150,11 @@ if( !isset($_SESSION['username']) ){
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tracking</li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="../pages/dashboard.php">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="../pages/pemesanan.php">Pemesanan</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Edit Status</li>
           </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Tracking</h6>
+          <h6 class="font-weight-bolder text-white mb-0">Edit Status</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -234,87 +262,44 @@ if( !isset($_SESSION['username']) ){
       </div>
     </nav>
     <!-- End Navbar -->
-    <div class="table-upload">
+    </head>
+    <body>
+    <div class="container-fluid py-4">
       <div class="row">
-        <div class="col-12">
-          <div class="card mb-4">
+        <div class="col-md-8">
+          <div class="card">
             <div class="card-header pb-0">
-              <h6>Tracking</h6>
+              <div class="d-flex align-items-center">
+                <p class="mb-0">Edit Status</p>
+              </div>
             </div>
-            <div class="card-body px-0 pt-0 pb-2">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id Tracking</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">No Pemesan</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Masuk</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Keluar</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Alamat</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Resi</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ekspedisi</th>
-                      <th class="text-secondary opacity-7"></th>
-                      </tr>
-                      </thead>
-                  <tbody>
-                  <?php
-                  include('../koneksi.php');
-                  $query = "SELECT * FROM tracking ORDER BY id_produk ASC";
-                  $result = mysqli_query($koneksi, $query);
-                  //mengecek apakah ada error ketika menjalankan query
-                  if(!$result){
-                   die ("Query Error: ".mysqli_errno($koneksi).
-                      " - ".mysqli_error($koneksi));
-                  }
-                  $no = 1;
-                  while($row = mysqli_fetch_assoc($result)) {
-                  ?>
-                    <tr>
-                    <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $no ?>
-                        <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="../gambar/<?php echo $row['gambar_produk']; ?>" class="avatar avatar-sm me-3" alt="user1">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm"><?php echo $row["nama_prod"] ?></h6>
-                            <p class="text-xs text-secondary mb-0"><?= $row["variasi"] ?> <span>grm</span></p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs text-secondary mb-0"><?php echo $row["deskripsi"] ?></p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["stok"] ?></span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["harga"] ?></span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="badge badge-sm bg-gradient-success"><?php echo $row["status_prod"] ?></span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["kategori"] ?></span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="../pop/edit_barang.php?id_produk=<?php echo $row["id_produk"]; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit |
-                        <a href="../algoritma/up_proseshapus.php?id_produk=<?php echo $row['id_produk']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Hapus
-                        </a>
-                      </td>
-                    </tr>
-                    <?php 
-                  $no++; //untuk nomor urut terus bertambah 1
-                  } 
-                  ?>
-                    <div class="col-6 text-end">
-                  <a href="../pop/upload_barang.php" class="btn btn-outline-primary btn-sm mb-0">Tambah Barang</a>
+            <div class="card-body">
+              <!-- <p class="text-uppercase text-sm">No Pemesan </p> -->
+              <div class="row">
+                <div class="col-md-6">
+                <div class="form-group">
+                <form method='POST' action='../algoritma/update_pemesan.php'>
+                <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">ID PEMESAN</label>
+                    <input class="form-control" type="text" name="order_id" value="<?php echo $data['order_id']; ?>" autofocus="" required="" />
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">STATUS</label>
+                <select name="status" class="form-control">
+                <option value="">>PILIH<</option>
+                <option value="Processed">Processed</option>
+                <option value="Transfer">Transfer</option>
+                <option value="Received">Received</option>
+                </select>  
+                </div>
+                </div>
+                </div>
+                  <div class="d-flex align-items-center">
+                <button type="submit" class="btn btn-primary btn-sm ms-auto">Simpan</button>
+              </div>
+</body>
+</html>
   </main>
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
@@ -324,7 +309,7 @@ if( !isset($_SESSION['username']) ){
       <div class="card-header pb-0 pt-3 ">
         <div class="float-start">
           <h5 class="mt-3 mb-0">Pengaturan Tema</h5>
-          <p>ubah tampilan tema sesuai keinginan.</p>
+          <p>Ubah tema sesuai selera.</p>
         </div>
         <div class="float-end mt-4">
           <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
@@ -351,14 +336,14 @@ if( !isset($_SESSION['username']) ){
         </a>
         <!-- Sidenav Type -->
         <div class="mt-3">
-          <h6 class="mb-0">Tipe Sidenav</h6>
-          <p class="text-sm">Pilih antara 2 jenis sidenav yang berbeda.</p>
+          <h6 class="mb-0">Sidenav Type</h6>
+          <p class="text-sm">Choose between 2 different sidenav types.</p>
         </div>
         <div class="d-flex">
           <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
           <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Dark</button>
         </div>
-        <p class="text-sm d-xl-none d-block mt-2">Anda dapat mengubah jenis sidenav hanya pada tampilan desktop.</p>
+        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
         <!-- Navbar Fixed -->
         <div class="d-flex my-3">
           <h6 class="mb-0">Navbar Fixed</h6>
@@ -373,15 +358,15 @@ if( !isset($_SESSION['username']) ){
             <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
           </div>
         </div>
-        <a class="btn bg-gradient-dark w-100" href="Link">Download Mobile Apk</a>
-        <a class="btn btn-outline-dark w-100" href="Link">Website</a>
+        <a class="btn bg-gradient-dark w-100" href="link">Download Mobile Apk</a>
+        <a class="btn btn-outline-dark w-100" href="link">Website</a>
         <div class="w-100 text-center">
-          <a class="github-button" href="link" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
-          <h6 class="mt-3">Sosial media kami</h6>
-          <a href="link" class="btn btn-dark mb-0 me-2" target="_blank">
+          <a class="github-button" href="https://github.com/creativetimofficial/argon-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
+          <h6 class="mt-3">Thank you for sharing!</h6>
+          <a href="https://twitter.com/intent/tweet?text=Check%20Argon%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fargon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
             <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
           </a>
-          <a href="link" class="btn btn-dark mb-0 me-2" target="_blank">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/argon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
             <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
           </a>
         </div>

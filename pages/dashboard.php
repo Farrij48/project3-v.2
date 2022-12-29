@@ -86,11 +86,11 @@ if( !isset($_SESSION['username']) ){
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/tracking.php">
+          <a class="nav-link " href="../pages/pengguna.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Traking</span>
+            <span class="nav-link-text ms-1">Pengguna</span>
           </a>
         </li>
         <li class="nav-item mt-3">
@@ -135,8 +135,8 @@ if( !isset($_SESSION['username']) ){
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group">
-              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" placeholder="Type here...">
+              <!-- <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" placeholder="Type here..."> -->
             </div>
           </div>
           <ul class="navbar-nav  justify-content-end">
@@ -246,14 +246,30 @@ if( !isset($_SESSION['username']) ){
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Bodycare</p>
+                  <?php
+                  include('../koneksi.php');
+                  $query = "SELECT SUM(totalAmount) AS total from orders_table WHERE status = 'Received'";
+                  $result = mysqli_query($koneksi, $query);
+                  //mengecek apakah ada error ketika menjalankan query
+                  if(!$result){
+                   die ("Query Error: ".mysqli_errno($koneksi).
+                      " - ".mysqli_error($koneksi));
+                  }
+                  $no = 1;
+                  while($row = mysqli_fetch_assoc($result)) {
+                  ?>
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Income</p>
                     <h5 class="font-weight-bolder">
-                      Rp53,000
+                      <?php echo $row['total'] ?>
                     </h5>
                     <p class="mb-0">
                       <span class="text-success text-sm font-weight-bolder">+55%</span>
                       sejak kemaren
                     </p>
+                    <?php 
+                  $no++; //untuk nomor urut terus bertambah 1
+                  } 
+                  ?>
                   </div>
                 </div>
                 <div class="col-4 text-end">
@@ -271,14 +287,29 @@ if( !isset($_SESSION['username']) ){
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Haircare</p>
+                  <?php
+                  include('../koneksi.php');
+                  $query = "SELECT COUNT(user_name) AS total_user FROM user_tb;";
+                  $result = mysqli_query($koneksi, $query);
+                  //mengecek apakah ada error ketika menjalankan query
+                  if(!$result){
+                   die ("Query Error: ".mysqli_errno($koneksi).
+                      " - ".mysqli_error($koneksi));
+                  }
+                  $no = 1;
+                  while($row = mysqli_fetch_assoc($result)) {
+                  ?>
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">User Mobile</p>
                     <h5 class="font-weight-bolder">
-                      2,700
+                    <?php echo $row['total_user'] ?>
                     </h5>
                     <p class="mb-0">
                       <span class="text-success text-sm font-weight-bolder">+3%</span>
                       sejak minggu lalu
                     </p>
+                    <?php 
+                  } 
+                  ?>
                   </div>
                 </div>
                 <div class="col-4 text-end">
@@ -296,14 +327,29 @@ if( !isset($_SESSION['username']) ){
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Makeup</p>
+                  <?php
+                  include('../koneksi.php');
+                  $query = "SELECT COUNT(order_id) AS order_selesai FROM orders_table";
+                  $result = mysqli_query($koneksi, $query);
+                  //mengecek apakah ada error ketika menjalankan query
+                  if(!$result){
+                   die ("Query Error: ".mysqli_errno($koneksi).
+                      " - ".mysqli_error($koneksi));
+                  }
+                  $no = 1;
+                  while($row = mysqli_fetch_assoc($result)) {
+                  ?>
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Order Selesai</p>
                     <h5 class="font-weight-bolder">
-                      +3,462
+                      <?php echo $row['order_selesai'] ?>
                     </h5>
                     <p class="mb-0">
                       <span class="text-danger text-sm font-weight-bolder">-2%</span>
                       kuartal terakhir
                     </p>
+                    <?php 
+                  } 
+                  ?>
                   </div>
                 </div>
                 <div class="col-4 text-end">
@@ -321,13 +367,28 @@ if( !isset($_SESSION['username']) ){
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Skincare</p>
+                  <?php
+                  include('../koneksi.php');
+                  $query = "SELECT COUNT(order_id) AS order_masuk from orders_table WHERE status = 'Transfer' OR status = 'Processed'";
+                  $result = mysqli_query($koneksi, $query);
+                  //mengecek apakah ada error ketika menjalankan query
+                  if(!$result){
+                   die ("Query Error: ".mysqli_errno($koneksi).
+                      " - ".mysqli_error($koneksi));
+                  }
+                  $no = 1;
+                  while($row = mysqli_fetch_assoc($result)) {
+                  ?>
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Order</p>
                     <h5 class="font-weight-bolder">
-                      Rp500,000
+                      <?php echo $row['order_masuk'] ?>
                     </h5>
                     <p class="mb-0">
                       <span class="text-success text-sm font-weight-bolder">+5%</span> bulan terakhir
                     </p>
+                    <?php 
+                  } 
+                  ?>
                   </div>
                 </div>
                 <div class="col-4 text-end">
@@ -340,14 +401,14 @@ if( !isset($_SESSION['username']) ){
           </div>
         </div>
       </div>
-      <div class="row mt-4">
+       <div class="row mt-4">
         <div class="col-lg-7 mb-lg-0 mb-4">
           <div class="card z-index-2 h-100">
             <div class="card-header pb-0 pt-3 bg-transparent">
-              <h6 class="text-capitalize">Sales overview</h6>
+              <h6 class="text-capitalize">Sales overview</h6> 
               <p class="text-sm mb-0">
                 <i class="fa fa-arrow-up text-success"></i>
-                <span class="font-weight-bold">4% more</span> in 2021
+                <span class="font-weight-bold">4% more</span> in 2021 
               </p>
             </div>
             <div class="card-body p-3">
@@ -361,7 +422,7 @@ if( !isset($_SESSION['username']) ){
           <div class="card card-carousel overflow-hidden h-100 p-0">
             <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
               <div class="carousel-inner border-radius-lg h-100">
-                <div class="carousel-item h-100 active" style="background-image: url('../assets/img/carousel-1.jpg');
+                <div class="carousel-item h-100 active" style="background-image: url('../assets/img/makeup_bk.jpg');
       background-size: cover;">
                   <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                     <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
@@ -371,7 +432,7 @@ if( !isset($_SESSION['username']) ){
                     <p>Ilmu adalah ilmu</p>
                   </div>
                 </div>
-                <div class="carousel-item h-100" style="background-image: url('../assets/img/carousel-2.jpg');
+                <div class="carousel-item h-100" style="background-image: url('../assets/img/skincare_background.jpg');
       background-size: cover;">
                   <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                     <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
@@ -381,7 +442,7 @@ if( !isset($_SESSION['username']) ){
                     <p>Mudah dipahami, tampilan sederhana, dan istimewa</p>
                   </div>
                 </div>
-                <div class="carousel-item h-100" style="background-image: url('../assets/img/carousel-3.jpg');
+                <div class="carousel-item h-100" style="background-image: url('../assets/img/skincare_kaca.jpg');
       background-size: cover;">
                   <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                     <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
@@ -404,7 +465,7 @@ if( !isset($_SESSION['username']) ){
           </div>
         </div>
       </div>
-      <div class="row mt-4">
+      <!-- <div class="row mt-4">
         <div class="col-lg-7 mb-lg-0 mb-4">
           <div class="card ">
             <div class="card-header pb-0 p-3">
@@ -604,14 +665,14 @@ if( !isset($_SESSION['username']) ){
                     </div>
                   </div>
                   <div class="d-flex">
-                    <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i class="ni ni-bold-right" aria-hidden="true"></i></button>
-                  </div>
+                    <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i class="ni ni-bold-right" aria-hidden="true"></i></button> 
+                  </div> 
                 </li>
               </ul>
-            </div>
+            </div> 
           </div>
         </div>
-      </div>
+      </div> 
       <footer class="footer pt-3  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
@@ -637,7 +698,7 @@ if( !isset($_SESSION['username']) ){
                   <a href="link website" class="nav-link text-muted" target="_blank">Blog</a>
                 </li>
                 <li class="nav-item">
-                  <a href="link website" class="nav-link pe-0 text-muted" target="_blank">Tiktok</a>
+                  <a href="link website" class="nav-link pe-0 text-muted" target="_blank">Tiktok</a>  -->
                 </li>
               </ul>
             </div>
@@ -823,3 +884,4 @@ if( !isset($_SESSION['username']) ){
 </body>
 
 </html>
+  

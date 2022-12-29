@@ -79,11 +79,11 @@ if( !isset($_SESSION['username']) ){
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/tracking.php">
+          <a class="nav-link " href="../pages/pengguna.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Tracking</span>
+            <span class="nav-link-text ms-1">Pengguna</span>
           </a>
           </li>
         <!-- <li class="nav-item">
@@ -132,8 +132,8 @@ if( !isset($_SESSION['username']) ){
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group">
-              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" placeholder="Type here...">
+              <!-- <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" placeholder="Type here..."> -->
             </div>
           </div>
           <ul class="navbar-nav  justify-content-end">
@@ -303,10 +303,10 @@ if( !isset($_SESSION['username']) ){
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $row["supplier"] ?></span>
                       </td>
                       <td class="align-middle">
-                        <a href="../pop/edit_pengeluaran.php?id_pengeluaran=<?php echo $row["id_pengeluaran"]; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit |
-                        <a href="../algoritma/up_proseshapus.php?item_id=<?php echo $row['id_pengeluaran']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Hapus
+                        <!-- <a href="../pop/edit_pengeluaran.php?id_pengeluaran=<?php echo $row["id_pengeluaran"]; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit | -->
+                        <a href="../algoritma/hapus_peng.php?id_pengeluaran=<?php echo $row['id_pengeluaran']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Hapus 
                         </a>
                       </td>
                     </tr>
